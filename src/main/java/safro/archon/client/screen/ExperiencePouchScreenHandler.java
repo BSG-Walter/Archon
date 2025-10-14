@@ -43,7 +43,10 @@ public class ExperiencePouchScreenHandler extends ScreenHandler {
     }
 
     public int getMaxExperience() {
-        return this.stack.isOf(ItemRegistry.SUPER_EXPERIENCE_POUCH) ? Archon.CONFIG.superExperiencePouchMax : Archon.CONFIG.experiencePouchMax;
+        if (this.stack.getItem() instanceof safro.archon.item.ExperiencePouchItem pouch) {
+            return pouch.getMaxXp();
+        }
+        return 0;
     }
 
     @Override

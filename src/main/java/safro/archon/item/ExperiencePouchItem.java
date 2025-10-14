@@ -48,8 +48,14 @@ public class ExperiencePouchItem extends Item implements NamedScreenHandlerFacto
         return max;
     }
 
-    public static void addExperience(ItemStack stack, int amount) {
+    public static int addExperience(ItemStack stack, int amount) {
+        if (stack.getItem() instanceof ExperiencePouchItem pouch) {
+            if (getExperience(stack) + amount > pouch.getMaxXp()) {
+                amount = pouch.getMaxXp() - getExperience(stack);
+            }
+        }
         stack.getOrCreateSubNbt(Archon.MODID).putInt("xp", getExperience(stack) + amount);
+        return amount;
     }
 
     public static void grantExperience(ItemStack stack, ServerPlayerEntity player, int amount) {
@@ -67,18 +73,8 @@ public class ExperiencePouchItem extends Item implements NamedScreenHandlerFacto
         return false;
     }
 
-    // Credit to XP Tome mod
     private static int getTotalXp(ServerPlayerEntity player) {
-        int level = player.experienceLevel;
-        if (level == 0) return 0;
-        if (level <= 15) return sum(level, 7, 2);
-        if (level <= 30) return 315 + sum(level - 15, 37, 5);
-        int i = 1395 + sum(level - 30, 112, 9);
-        return (int) (i + (player.experienceProgress * player.getNextLevelExperience()));
-    }
-
-    private static int sum(int n, int a0, int d) {
-        return n * (2 * a0 + (n - 1) * d) / 2;
+        return player.totalExperience;
     }
 
     public boolean hasGlint(ItemStack stack) {

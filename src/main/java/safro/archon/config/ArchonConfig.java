@@ -89,6 +89,9 @@ public class ArchonConfig implements Config {
     @Syncing
     public int superExperiencePouchMax = 2920;
 
+    @Syncing
+    public int elExperiencePouchMax = 70000;
+
     @Override
     public String getName() {
         return "archon";

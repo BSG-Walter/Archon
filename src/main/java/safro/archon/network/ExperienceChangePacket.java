@@ -25,16 +25,23 @@ public class ExperienceChangePacket {
         ItemStack stack = player.getMainHandStack();
 
         if (amount == -1) { // Add/remove one level
-            int xp = player.getNextLevelExperience();
             if (add) {
-                addToPouch(xp, player, stack);
+                int xpInBar = player.totalExperience - getXpForLevel(player.experienceLevel);
+                if (xpInBar == 0 && player.experienceLevel > 0) {
+                    // If the bar is empty, de-level the player
+                    int xpForPreviousLevel = getXpForLevel(player.experienceLevel) - getXpForLevel(player.experienceLevel - 1);
+                    addToPouch(xpForPreviousLevel, player, stack);
+                } else {
+                    addToPouch(xpInBar, player, stack);
+                }
             } else {
-                removeFromPouch(xp, player, stack);
+                // Remove enough experience to level up
+                int xpNeeded = getXpForLevel(player.experienceLevel + 1) - player.totalExperience;
+                removeFromPouch(xpNeeded, player, stack);
             }
         } else if (amount == -2) { // Add/remove all
             if (add) {
-                int xp = (int) (player.experienceProgress * player.getNextLevelExperience());
-                addToPouch(xp, player, stack);
+                addToPouch(player.totalExperience, player, stack);
             } else {
                 removeFromPouch(ExperiencePouchItem.getExperience(stack), player, stack);
             }
@@ -49,14 +56,24 @@ public class ExperienceChangePacket {
 
     private static void addToPouch(int amount, ServerPlayerEntity player, ItemStack stack) {
         if (ExperiencePouchItem.canAddXp(player, stack, amount)) {
-            ExperiencePouchItem.addExperience(stack, amount);
-            player.addExperience(-amount);
+            int added = ExperiencePouchItem.addExperience(stack, amount);
+            player.addExperience(-added);
         }
     }
 
     private static void removeFromPouch(int amount, ServerPlayerEntity player, ItemStack stack) {
         if (ExperiencePouchItem.getExperience(stack) >= amount) {
             ExperiencePouchItem.grantExperience(stack, player, amount);
+        }
+    }
+
+    private static int getXpForLevel(int level) {
+        if (level <= 16) {
+            return (int) (Math.pow(level, 2) + 6 * level);
+        } else if (level <= 31) {
+            return (int) (2.5 * Math.pow(level, 2) - 40.5 * level + 360);
+        } else {
+            return (int) (4.5 * Math.pow(level, 2) - 162.5 * level + 2220);
         }
     }
 }

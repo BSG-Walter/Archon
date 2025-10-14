@@ -31,13 +31,25 @@ public class ExperiencePouchScreen extends HandledScreen<ExperiencePouchScreenHa
         super.init();
         this.buttons.clear();
 
-        // Add buttons
-        this.addButton(new ExperienceButtonWidget(this.x + 14, this.y + 41, 1, ExperienceButtonWidget.ButtonType.ADD_LEVEL, this.textRenderer));
-        this.addButton(new ExperienceButtonWidget(this.x + 52, this.y + 41, 0, ExperienceButtonWidget.ButtonType.ADD_ALL, this.textRenderer));
+        // Add buttons - Top row
+        for (int i = 0; i < 4; i++) {
+            int value = (int) Math.pow(10, i);
+            this.addButton(new ExperienceButtonWidget(this.x + (14 + (i * 24)), this.y + 30, value, Text.of(Integer.toString(value)), ExperienceButtonWidget.ButtonType.ADD, this.textRenderer));
+        }
 
-        // Remove buttons
-        this.addButton(new ExperienceButtonWidget(this.x + 121, this.y + 41, 1, ExperienceButtonWidget.ButtonType.REMOVE_LEVEL, this.textRenderer));
-        this.addButton(new ExperienceButtonWidget(this.x + 159, this.y + 41, 0, ExperienceButtonWidget.ButtonType.REMOVE_ALL, this.textRenderer));
+        // Add buttons - Bottom row
+        this.addButton(new ExperienceButtonWidget(this.x + 14, this.y + 55, 1, Text.of("Lvl"), ExperienceButtonWidget.ButtonType.ADD_LEVEL, this.textRenderer));
+        this.addButton(new ExperienceButtonWidget(this.x + 38, this.y + 55, 0, Text.of("All"), ExperienceButtonWidget.ButtonType.ADD_ALL, this.textRenderer));
+
+        // Remove buttons - Top row
+        for (int i = 0; i < 4; i++) {
+            int value = (int) Math.pow(10, i);
+            this.addButton(new ExperienceButtonWidget(this.x + (120 + (i * 24)), this.y + 30, value, Text.of(Integer.toString(value)), ExperienceButtonWidget.ButtonType.REMOVE, this.textRenderer));
+        }
+
+        // Remove buttons - Bottom row
+        this.addButton(new ExperienceButtonWidget(this.x + 120 + 24*2, this.y + 55, 1, Text.of("Lvl"), ExperienceButtonWidget.ButtonType.REMOVE_LEVEL, this.textRenderer));
+        this.addButton(new ExperienceButtonWidget(this.x + 120 + 24*3, this.y + 55, 0, Text.of("All"), ExperienceButtonWidget.ButtonType.REMOVE_ALL, this.textRenderer));
     }
 
     private <T extends ExperienceButtonWidget> void addButton(T button) {
@@ -61,8 +73,8 @@ public class ExperiencePouchScreen extends HandledScreen<ExperiencePouchScreenHa
     }
 
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
-        context.drawCenteredTextWithShadow(this.textRenderer, ADD_TEXT, 58, 17, 14737632);
-        context.drawCenteredTextWithShadow(this.textRenderer, REMOVE_TEXT, 170, 17, 14737632);
+        context.drawCenteredTextWithShadow(this.textRenderer, ADD_TEXT, 58, 13, 14737632);
+        context.drawCenteredTextWithShadow(this.textRenderer, REMOVE_TEXT, 170, 15, 14737632);
         Text xp = Text.literal(this.handler.getExperience() + "/" + this.handler.getMaxExperience());
         context.drawCenteredTextWithShadow(this.textRenderer, xp, 116, 85, 14737632);
     }

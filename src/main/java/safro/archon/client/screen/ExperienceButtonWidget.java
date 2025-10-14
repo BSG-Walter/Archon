@@ -20,11 +20,11 @@ public class ExperienceButtonWidget extends PressableWidget {
     private final Text text;
     protected final ButtonType type;
 
-    protected ExperienceButtonWidget(int x, int y, int value, ButtonType type, TextRenderer textRenderer) {
-        super(x, y, 22, 22, Text.of(Integer.toString(value)));
+    protected ExperienceButtonWidget(int x, int y, int value, Text text, ButtonType type, TextRenderer textRenderer) {
+        super(x, y, 22, 22, text);
         this.value = value;
         this.textRenderer = textRenderer;
-        this.text = Text.of(value < 1000 ? Integer.toString(value) : (value / 1000) + "k");
+        this.text = text;
         this.type = type;
     }
 
@@ -37,8 +37,7 @@ public class ExperienceButtonWidget extends PressableWidget {
         }
 
         context.drawTexture(ExperiencePouchScreen.TEXTURE, this.getX(), this.getY(), j, 219, this.width, this.height);
-        int x = this.value >= 100 && this.value < 1000 ? 2 : 6;
-        context.drawTextWithShadow(this.textRenderer, this.text, this.getX() + x, this.getY() + 7, 16777215 | MathHelper.ceil(this.alpha * 255.0F) << 24);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.text, this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, 16777215 | MathHelper.ceil(this.alpha * 255.0F) << 24);
     }
 
     @Override
