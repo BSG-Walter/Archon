@@ -74,6 +74,7 @@ public class ItemRegistry extends BaseBlockItemRegistry {
     // Resources + Misc
     public static final Item EXPERIENCE_POUCH = register("experience_pouch", new ExperiencePouchItem(Archon.CONFIG.experiencePouchMax, settings().maxCount(1)));
     public static final Item SUPER_EXPERIENCE_POUCH = register("super_experience_pouch", new ExperiencePouchItem(Archon.CONFIG.superExperiencePouchMax, settings().maxCount(1)));
+    public static final Item EL_EXPERIENCE_POUCH = register("el_experience_pouch", new ExperiencePouchItem(Integer.MAX_VALUE, settings().maxCount(1).rarity(Rarity.EPIC)));
     public static final Item GLISTEEL_INGOT = register("glisteel_ingot", new Item(settings()));
     public static final Item FIRE_ESSENCE = register("fire_essence", new Item(settings()));
     public static final Item WATER_ESSENCE = register("water_essence", new Item(settings()));

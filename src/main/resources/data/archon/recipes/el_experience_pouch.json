@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SSS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "archon:super_experience_pouch"
+    }
+  },
+  "result": {
+    "item": "archon:el_experience_pouch"
+  }
+}

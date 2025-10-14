@@ -24,10 +24,26 @@ public class ExperienceChangePacket {
         boolean add = buf.readBoolean();
         ItemStack stack = player.getMainHandStack();
 
-        if (add) {
-            addToPouch(amount, player, stack);
+        if (amount == -1) { // Add/remove one level
+            int xp = player.getNextLevelExperience();
+            if (add) {
+                addToPouch(xp, player, stack);
+            } else {
+                removeFromPouch(xp, player, stack);
+            }
+        } else if (amount == -2) { // Add/remove all
+            if (add) {
+                int xp = (int) (player.experienceProgress * player.getNextLevelExperience());
+                addToPouch(xp, player, stack);
+            } else {
+                removeFromPouch(ExperiencePouchItem.getExperience(stack), player, stack);
+            }
         } else {
-            removeFromPouch(amount, player, stack);
+            if (add) {
+                addToPouch(amount, player, stack);
+            } else {
+                removeFromPouch(amount, player, stack);
+            }
         }
     }
 

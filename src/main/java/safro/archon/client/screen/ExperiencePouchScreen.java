@@ -31,15 +31,13 @@ public class ExperiencePouchScreen extends HandledScreen<ExperiencePouchScreenHa
         super.init();
         this.buttons.clear();
 
-        for (int i = 0; i < 3; i++) {
-            ExperienceButtonWidget button = new ExperienceButtonWidget(this.x + (14 + (i * 38)), this.y + 41, 5 * (int)Math.pow(10, i + 1), true, this.textRenderer);
-            this.addButton(button);
-        }
+        // Add buttons
+        this.addButton(new ExperienceButtonWidget(this.x + 14, this.y + 41, 1, ExperienceButtonWidget.ButtonType.ADD_LEVEL, this.textRenderer));
+        this.addButton(new ExperienceButtonWidget(this.x + 52, this.y + 41, 0, ExperienceButtonWidget.ButtonType.ADD_ALL, this.textRenderer));
 
-        for (int i = 0; i < 3; i++) {
-            ExperienceButtonWidget button = new ExperienceButtonWidget(this.x + (121 + (i * 38)), this.y + 41, 5 * (int)Math.pow(10, i + 1), false, this.textRenderer);
-            this.addButton(button);
-        }
+        // Remove buttons
+        this.addButton(new ExperienceButtonWidget(this.x + 121, this.y + 41, 1, ExperienceButtonWidget.ButtonType.REMOVE_LEVEL, this.textRenderer));
+        this.addButton(new ExperienceButtonWidget(this.x + 159, this.y + 41, 0, ExperienceButtonWidget.ButtonType.REMOVE_ALL, this.textRenderer));
     }
 
     private <T extends ExperienceButtonWidget> void addButton(T button) {

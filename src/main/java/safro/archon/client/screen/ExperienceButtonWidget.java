@@ -18,14 +18,14 @@ public class ExperienceButtonWidget extends PressableWidget {
     private final TextRenderer textRenderer;
     protected final int value;
     private final Text text;
-    protected final boolean add;
+    protected final ButtonType type;
 
-    protected ExperienceButtonWidget(int x, int y, int value, boolean add, TextRenderer textRenderer) {
+    protected ExperienceButtonWidget(int x, int y, int value, ButtonType type, TextRenderer textRenderer) {
         super(x, y, 22, 22, Text.of(Integer.toString(value)));
         this.value = value;
         this.textRenderer = textRenderer;
         this.text = Text.of(value < 1000 ? Integer.toString(value) : (value / 1000) + "k");
-        this.add = add;
+        this.type = type;
     }
 
     public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
@@ -52,6 +52,21 @@ public class ExperienceButtonWidget extends PressableWidget {
 
     @Override
     public void onPress() {
-        ExperienceChangePacket.send(this.value, this.add);
+        boolean add = this.type == ButtonType.ADD || this.type == ButtonType.ADD_LEVEL || this.type == ButtonType.ADD_ALL;
+        int value = switch (this.type) {
+            case ADD, REMOVE -> this.value;
+            case ADD_LEVEL, REMOVE_LEVEL -> -1;
+            case ADD_ALL, REMOVE_ALL -> -2;
+        };
+        ExperienceChangePacket.send(value, add);
+    }
+
+    public enum ButtonType {
+        ADD,
+        REMOVE,
+        ADD_LEVEL,
+        REMOVE_LEVEL,
+        ADD_ALL,
+        REMOVE_ALL
     }
 }
