@@ -33,7 +33,12 @@ public class ExperiencePouchItem extends Item implements NamedScreenHandlerFacto
 
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
-        if (!world.isClient && player.getMainHandStack().isOf(this)) {
+        if (player.isSneaking()) {
+            if (world.isClient) {
+                safro.archon.network.ExperienceChangePacket.send(-1, true);
+            }
+            return TypedActionResult.success(stack);
+        } else if (!world.isClient) {
             player.openHandledScreen(this);
             return TypedActionResult.success(stack);
         }

@@ -36,7 +36,7 @@ public class ExperienceChangePacket {
                 }
             } else {
                 // Remove enough experience to level up
-                int xpNeeded = getXpForLevel(player.experienceLevel + 1) - player.totalExperience;
+                int xpNeeded = getXpForLevel(player.experienceLevel + 1) - player.totalExperience + 1;
                 removeFromPouch(xpNeeded, player, stack);
             }
         } else if (amount == -2) { // Add/remove all
@@ -64,6 +64,8 @@ public class ExperienceChangePacket {
     private static void removeFromPouch(int amount, ServerPlayerEntity player, ItemStack stack) {
         if (ExperiencePouchItem.getExperience(stack) >= amount) {
             ExperiencePouchItem.grantExperience(stack, player, amount);
+        }else{
+            ExperiencePouchItem.grantExperience(stack, player, ExperiencePouchItem.getExperience(stack));
         }
     }
 

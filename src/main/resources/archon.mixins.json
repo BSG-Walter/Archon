@@ -22,7 +22,8 @@
   "client": [
     "client.InGameHudMixin",
     "client.PlayerEntityRendererMixin",
-    "client.LivingEntityRendererMixin"
+    "client.LivingEntityRendererMixin",
+    "client.MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
