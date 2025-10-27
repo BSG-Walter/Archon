@@ -75,7 +75,7 @@ public class ExperiencePouchScreen extends HandledScreen<ExperiencePouchScreenHa
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
         context.drawCenteredTextWithShadow(this.textRenderer, ADD_TEXT, 58, 13, 14737632);
         context.drawCenteredTextWithShadow(this.textRenderer, REMOVE_TEXT, 170, 15, 14737632);
-        Text xp = Text.literal(this.handler.getExperience() + "/" + this.handler.getMaxExperience());
+        Text xp = Text.literal(this.handler.experience + "/" + this.handler.getMaxExperience());
         context.drawCenteredTextWithShadow(this.textRenderer, xp, 116, 85, 14737632);
     }
 }

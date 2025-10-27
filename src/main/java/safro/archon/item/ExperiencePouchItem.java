@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import safro.archon.Archon;
 import safro.archon.client.screen.ExperiencePouchScreenHandler;
+import safro.archon.network.ExperienceSyncPacket;
 import safro.archon.registry.ItemRegistry;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class ExperiencePouchItem extends Item implements NamedScreenHandlerFacto
             return TypedActionResult.success(stack);
         } else if (!world.isClient) {
             player.openHandledScreen(this);
+            ExperienceSyncPacket.send((ServerPlayerEntity) player, getExperience(stack));
             return TypedActionResult.success(stack);
         }
         return TypedActionResult.pass(stack);
@@ -58,8 +60,8 @@ public class ExperiencePouchItem extends Item implements NamedScreenHandlerFacto
             if (getExperience(stack) + amount > pouch.getMaxXp()) {
                 amount = pouch.getMaxXp() - getExperience(stack);
             }
+            stack.getOrCreateSubNbt(Archon.MODID).putInt("xp", getExperience(stack) + amount);
         }
-        stack.getOrCreateSubNbt(Archon.MODID).putInt("xp", getExperience(stack) + amount);
         return amount;
     }
 
@@ -101,18 +103,6 @@ public class ExperiencePouchItem extends Item implements NamedScreenHandlerFacto
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         ItemStack stack = player.getMainHandStack();
-        PropertyDelegate propertyDelegate = new PropertyDelegate() {
-            public int get(int index) {
-                return index == 0 ? getExperience(stack) : 0;
-            }
-
-            public void set(int index, int value) {
-            }
-
-            public int size() {
-                return 1;
-            }
-        };
-        return new ExperiencePouchScreenHandler(syncId, inv, propertyDelegate);
+        return new ExperiencePouchScreenHandler(syncId, inv);
     }
 }

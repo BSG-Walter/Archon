@@ -58,6 +58,7 @@ public class ExperienceChangePacket {
         if (ExperiencePouchItem.canAddXp(player, stack, amount)) {
             int added = ExperiencePouchItem.addExperience(stack, amount);
             player.addExperience(-added);
+            ExperienceSyncPacket.send(player, ExperiencePouchItem.getExperience(stack));
         }
     }
 
@@ -67,6 +68,7 @@ public class ExperienceChangePacket {
         }else{
             ExperiencePouchItem.grantExperience(stack, player, ExperiencePouchItem.getExperience(stack));
         }
+        ExperienceSyncPacket.send(player, ExperiencePouchItem.getExperience(stack));
     }
 
     private static int getXpForLevel(int level) {

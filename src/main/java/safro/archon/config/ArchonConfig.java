@@ -77,18 +77,22 @@ public class ArchonConfig implements Config {
 
     @Comment("""
              The max amount of experience the standard experience pouch can hold.
-             Default: 550
+             Default: 1200
             """)
     @Syncing
-    public int experiencePouchMax = 550;
+    public int experiencePouchMax = 1200;
 
     @Comment("""
              The max amount of experience the super experience pouch can hold.
-             Default: 2920
+             Default: 70000
             """)
     @Syncing
-    public int superExperiencePouchMax = 2920;
+    public int superExperiencePouchMax = 8000;
 
+        @Comment("""
+                The max amount of experience the EL experience pouch can hold.
+                Default: 70000
+                """)
     @Syncing
     public int elExperiencePouchMax = 70000;
 
